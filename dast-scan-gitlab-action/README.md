@@ -1,4 +1,4 @@
-# Crashtest Security Action
+# Veracpde DAST Essentials Action
 
 A Github Action for running a [Veracode](https://veracode.com) scan to perform Dynamic Application Security Testing (DAST).
 
