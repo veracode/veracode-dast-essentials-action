@@ -37,9 +37,9 @@ Flag whether the report should be downloaded as JUnit XML file. Default `"false"
 ```
     - name: Veracode DAST Essentials Action Step
       id: veracode
-      uses: veracode/veracode-dast-essentials-action@v1
+      uses: veracode/veracode-dast-essentials-action@v1.0.1
       with:
-        VERACODE_WEBHOOK: '${{ secrets.CRASHTEST_WEBHOOK }}'
+        VERACODE_WEBHOOK: '${{ secrets.VERACODE_WEBHOOK }}'
         VERACODE_SECRET_ID: '${{ secrets.VERACODE_SECRET_ID }}'
         VERACODE_SECRET_ID_KEY: '${{ secrets.VERACODE_SECRET_ID_KEY }}'
         REGION: '${{ secrets.REGION }}'

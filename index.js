@@ -79,7 +79,7 @@ async function run() {
         // Start the Security Scan
         try {
             let method = "GET";
-            let url = urlPrefix+"webhook/"${veracodeWebhook};
+            let url = urlPrefix+"webhook/"+veracodeWebhook;
             let VERACODE_AUTH_HEADER = await generateHeader(url, method);
             const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}});
             scanId = response.data.data.scanId;
