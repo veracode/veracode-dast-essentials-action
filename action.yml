@@ -11,10 +11,10 @@ inputs:
     description: 'API Secret ID of the DAST Essentials Scan Target'
     required: true
   VERACODE_SECRET_ID_KEY:
-    description: 'Webhook Secret of the DAST Essentials Scan Target'
+    description: 'API Secret ID Key of the DAST Essentials Scan Target'
     required: true
   REGION:
-    description: 'Webhook Secret of the DAST Essentials Scan Target'
+    description: 'Region of the DAST Essentials'
     required: false
     default: 'us'
   pull-report:
