@@ -1,12 +1,22 @@
 name: 'Veracode DAST Essentials Action'
-description: 'A Github Action for Running a Crashtest Security scan to perform Dynamic Application Security Testing (DAST).'
+description: 'A Github Action for Running a Veracode DAST Essentials scan to perform Dynamic Application Security Testing (DAST).'
 branding:
   icon: 'alert-triangle'
   color: 'red'
 inputs:
-  crashtest-webhook:
-    description: 'Webhook Secret of the Crashtest Security Scan Target'
+  VERACODE_WEBHOOK:
+    description: 'Webhook Secret of the DAST Essentials Scan Target'
     required: true
+  VERACODE_SECRET_ID:
+    description: 'API Secret ID of the DAST Essentials Scan Target'
+    required: true
+  VERACODE_SECRET_ID_KEY:
+    description: 'Webhook Secret of the DAST Essentials Scan Target'
+    required: true
+  REGION:
+    description: 'Webhook Secret of the DAST Essentials Scan Target'
+    required: false
+    default: 'us'
   pull-report:
     description: 'Flag whether the report should be downloaded as JUnit XML file'
     required: false
