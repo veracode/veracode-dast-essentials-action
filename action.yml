@@ -1,4 +1,4 @@
-name: 'Crashtest Security Action'
+name: 'Veracode DAST Essentials Action'
 description: 'A Github Action for Running a Crashtest Security scan to perform Dynamic Application Security Testing (DAST).'
 branding:
   icon: 'alert-triangle'

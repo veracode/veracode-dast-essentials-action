@@ -11,9 +11,9 @@ const pullReport = core.getInput('pull-report');
 
 const preFix = "VERACODE-HMAC-SHA-256";
 const verStr = "vcode_request_version_1";
-// Todo: adjust host and urlPrefix
-let host = "apigateway-dyn-tachyon-2.dev.veracode.io";
-let urlPrefix = "/tf-png/dyn-tachyon/core-api/"
+
+let host = "api.veracode.com";
+let urlPrefix = "/dae/api/core-api/webhook"
 
 let hmac256 = async (data, key) => {
     let hash = crypto.createHmac('sha256', key).update(data);
