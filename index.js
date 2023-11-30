@@ -7,13 +7,18 @@ crypto = require("crypto");
 const veracodeWebhook = core.getInput('VERACODE_WEBHOOK');
 const id = core.getInput('VERACODE_SECRET_ID');
 const key = core.getInput('VERACODE_SECRET_ID_KEY');
+const region = core.getInput('REGION');
 const pullReport = core.getInput('pull-report');
 
 const preFix = "VERACODE-HMAC-SHA-256";
 const verStr = "vcode_request_version_1";
 
 let host = "api.veracode.com";
-let urlPrefix = "/dae/api/core-api/webhook"
+let urlPrefix = "/dae/api/core-api/webhook";
+
+if(region === "eu") {
+    host = "api.veracode.eu";
+}
 
 let hmac256 = async (data, key) => {
     let hash = crypto.createHmac('sha256', key).update(data);

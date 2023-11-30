@@ -1,4 +1,4 @@
-# Veracpde DAST Essentials Action
+# Veracode DAST Essentials Action
 
 A Github Action for running a [Veracode](https://veracode.com) scan to perform Dynamic Application Security Testing (DAST).
 
@@ -18,6 +18,14 @@ The Veracode DAST Essentials will run a security scan against the scan target th
 
 ### `VERACODE_SECRET_ID_KEY`
 
+**Required** Region.
+
+### `REGION`
+
+The region of Veracode DAST Essentials.
+- eu - for domain veracode.eu
+- us - for domain veracode.com
+
 **Required** Veracode API Secret ID.
 
 ### `pull-report`
@@ -34,6 +42,7 @@ Flag whether the report should be downloaded as JUnit XML file. Default `"false"
         VERACODE_WEBHOOK: '${{ secrets.CRASHTEST_WEBHOOK }}'
         VERACODE_SECRET_ID: '${{ secrets.VERACODE_SECRET_ID }}'
         VERACODE_SECRET_ID_KEY: '${{ secrets.VERACODE_SECRET_ID_KEY }}'
+        REGION: '${{ secrets.REGION }}'
         pull-report: 'true'
 ```
 
