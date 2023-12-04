@@ -73,13 +73,13 @@ async function run() {
         const pollTimeout = 60000; // Polling the scan status every 60 seconds
         let status = 100; // 100 = Queued
         let scanId = undefined;
+        let url = urlPrefix+"/"+veracodeWebhook;
 
-        console.log(`Sending Webhook for ${veracodeWebhook}`);
+        console.log(`Sending Webhook to URL ${host}${url} for ${veracodeWebhook}`);
 
         // Start the Security Scan
         try {
             let method = "POST";
-            let url = urlPrefix+"/"+veracodeWebhook;
             let VERACODE_AUTH_HEADER = await generateHeader(url, method);
             const response = await axios.post("https://"+`${host}${url}`, "", {headers: {'Authorization': VERACODE_AUTH_HEADER}});
             scanId = response.data.data.scanId;
