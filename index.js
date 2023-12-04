@@ -78,13 +78,13 @@ async function run() {
 
         // Start the Security Scan
         try {
-            let method = "GET";
-            let url = urlPrefix+"webhook/"+veracodeWebhook;
+            let method = "POST";
+            let url = urlPrefix+"/"+veracodeWebhook;
             let VERACODE_AUTH_HEADER = await generateHeader(url, method);
-            const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}});
+            const response = await axios.post("https://"+`${host}${url}`, "", {headers: {'Authorization': VERACODE_AUTH_HEADER}});
             scanId = response.data.data.scanId;
         } catch(error) {
-            errorMsg = error.response.data.message
+            errorMsg = error.toString()
             core.setFailed(`Could not start Scan for Webhook ${veracodeWebhook}. Reason: ${errorMsg}.`);
             return
         }
@@ -113,10 +113,10 @@ async function run() {
             // Refresh status
             try {
                 let method = "GET";
-                let url = urlPrefix+"webhook/"+`${veracodeWebhook}/scans/${scanId}/status`;
-                let VERACODE_AUTH_HEADER = await generateHeader(url, method);
+                let url = urlPrefix+"/"+`${veracodeWebhook}/scans/${scanId}/status`;
 
-                const response = await axios.get(`${host}/${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}});
+                let VERACODE_AUTH_HEADER = await generateHeader(url, method);
+                const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}});
                 status = response.data.data.status.status_code;
             } catch(error) {
                 errorMsg = error.response.data.message
@@ -132,10 +132,10 @@ async function run() {
         let junitReport = undefined;
         try {
             let method = "GET";
-            let url = urlPrefix+"webhook/"+`${veracodeWebhook}/scans/${scanId}/report/junit`;
+            let url = urlPrefix+"/"+`${veracodeWebhook}/scans/${scanId}/report/junit`;
             let VERACODE_AUTH_HEADER = await generateHeader(url, method);
 
-            const response = await axios.get(`${host}/${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}})
+            const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}})
             junitReport = response.data;
         } catch(error) {
             errorMsg = error.response.data.message
