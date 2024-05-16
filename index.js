@@ -124,7 +124,6 @@ async function run() {
                 core.setFailed(`Retreiving Scan Status failed for Webhook ${veracodeWebhook}. Reason: ${errorMsg}.`);
                 return
             }
-            }
 
         }
 
