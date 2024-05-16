@@ -116,12 +116,14 @@ async function run() {
                 let url = urlPrefix+"/"+`${veracodeWebhook}/scans/${scanId}/status`;
 
                 let VERACODE_AUTH_HEADER = await generateHeader(url, method);
-                const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}});
+                const response = await axios.get("https://" + `${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}});
                 status = response.data.data.status.status_code;
-            } catch(error) {
-                errorMsg = error.response.data.message
+            } catch (error) {
+                console.log(`HTTTP STATUS = ${error.response.status}`);
+                const errorMsg = error.response ? error.response.data.message : error;
                 core.setFailed(`Retreiving Scan Status failed for Webhook ${veracodeWebhook}. Reason: ${errorMsg}.`);
                 return
+            }
             }
 
         }
