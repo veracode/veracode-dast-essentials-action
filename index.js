@@ -87,11 +87,11 @@ async function run() {
             const response = await axios.post(callUrl, "", {
                 headers: {'Authorization': VERACODE_AUTH_HEADER},
             });
-            console.log(`Start scan response: ${util.inspect(response, {depth: null})}`);
+            console.log(`Start scan response: ${util.inspect(response.data, {depth: null})}`);
             scanId = response.data.data.scanId;
         } catch (error) {
             let errorMsg = error.toString()
-            console.log(`Start scan response: ${util.inspect(response, {depth: null})}`);
+            console.log(`Start scan response: ${util.inspect(response.data, {depth: null})}`);
             core.setFailed(`Could not start Scan for Webhook ${veracodeWebhook}. Reason: ${errorMsg}.`);
             return
         }
@@ -128,12 +128,12 @@ async function run() {
                 const response = await axios.get(callUrl, {
                     headers: {'Authorization': VERACODE_AUTH_HEADER}, family: 4
                 });
-                console.log(`Response Data: ${util.inspect(response, {depth: null})}`);
+                console.log(`Response Data: ${util.inspect(response.data, {depth: null})}`);
                 console.log(`Scan Status currently is ${response.data.data.status} (101 = Running)`);
                 status = response.data.data.status.status_code;
                 console.log(`Scan Status updated to: ${status}`);
             } catch (error) {
-                console.log(`Response Data: ${util.inspect(response, {depth: null})}`);
+                console.log(`Response Data: ${util.inspect(response.data, {depth: null})}`);
                 console.log(`Scan Status currently is ${response.data.data.status} (101 = Running)`);
                 status = response.data.data.status.status_code;
                 console.log(`Scan Status updated to: ${status}`);
