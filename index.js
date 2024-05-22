@@ -2,6 +2,7 @@ const axios = require('axios')
 const core = require('@actions/core');
 const fs = require('fs');
 crypto = require("crypto");
+const util = require('util')
 
 // Load Configuration
 const veracodeWebhook = core.getInput('VERACODE_WEBHOOK');
