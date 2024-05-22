@@ -91,6 +91,7 @@ async function run() {
             scanId = response.data.data.scanId;
         } catch (error) {
             let errorMsg = error.toString()
+            console.log(`Start scan response: ${util.inspect(response, {depth: null})}`);
             core.setFailed(`Could not start Scan for Webhook ${veracodeWebhook}. Reason: ${errorMsg}.`);
             return
         }
