@@ -86,7 +86,7 @@ async function run() {
             const response = await axios.post(callUrl, "", {
                 headers: {'Authorization': VERACODE_AUTH_HEADER},
             });
-            console.log(`Start scan response: ${response.toString()}`);
+            console.log(`Start scan response: ${util.inspect(response, {depth: null})}`);
             scanId = response.data.data.scanId;
         } catch (error) {
             let errorMsg = error.toString()
@@ -126,12 +126,12 @@ async function run() {
                 const response = await axios.get(callUrl, {
                     headers: {'Authorization': VERACODE_AUTH_HEADER}, family: 4
                 });
-                console.log(`Response Data: ${response.data.toString()}`);
+                console.log(`Response Data: ${util.inspect(response, {depth: null})}`);
                 console.log(`Scan Status currently is ${response.data.data.status} (101 = Running)`);
                 status = response.data.data.status.status_code;
                 console.log(`Scan Status updated to: ${status}`);
             } catch (error) {
-                console.log(`Response Data: ${response.data.toString()}`);
+                console.log(`Response Data: ${util.inspect(response, {depth: null})}`);
                 console.log(`Scan Status currently is ${response.data.data.status} (101 = Running)`);
                 status = response.data.data.status.status_code;
                 console.log(`Scan Status updated to: ${status}`);
