@@ -82,10 +82,11 @@ async function run() {
             let method = "POST";
             let VERACODE_AUTH_HEADER = await generateHeader(url, method);
             const callUrl = "https://" + `${host}${url}`
+            console.log(`Calling following url: ${callUrl} to start a scan with auth header - ${VERACODE_AUTH_HEADER}`);
             const response = await axios.post(callUrl, "", {
                 headers: {'Authorization': VERACODE_AUTH_HEADER},
-                family: 4
             });
+            console.log(`Start scan response: ${JSON.stringify(response)}`);
             scanId = response.data.data.scanId;
         } catch (error) {
             let errorMsg = error.toString()
@@ -116,18 +117,26 @@ async function run() {
 
             // Refresh status
             try {
-                let method = "GET";
-                let url = urlPrefix + "/" + `${veracodeWebhook}/scans/${scanId}/status`;
+                const method = "GET";
+                const url = urlPrefix + "/" + `${veracodeWebhook}/scans/${scanId}/status`;
+                const callUrl = "https://" + `${host}${url}`
+                const VERACODE_AUTH_HEADER = await generateHeader(url, method);
 
-                let VERACODE_AUTH_HEADER = await generateHeader(url, method);
-                const response = await axios.get("https://" + `${host}${url}`, {
+                console.log(`Calling following url to get scan status: ${callUrl} with auth header - ${VERACODE_AUTH_HEADER}`);
+                const response = await axios.get(callUrl, {
                     headers: {'Authorization': VERACODE_AUTH_HEADER}, family: 4
                 });
+                console.log(`Response Data: ${JSON.stringify(response.data)}`);
+                console.log(`Scan Status currently is ${response.data.data.status} (101 = Running)`);
                 status = response.data.data.status.status_code;
+                console.log(`Scan Status updated to: ${status}`);
             } catch (error) {
+                console.log(`Response Data: ${JSON.stringify(response.data)}`);
+                console.log(`Scan Status currently is ${response.data.data.status} (101 = Running)`);
+                status = response.data.data.status.status_code;
+                console.log(`Scan Status updated to: ${status}`);
                 console.log(`HTTTP STATUS = ${error.response.status}`);
-                const errorMsg = error.response ? error.response.data.message : error;
-                core.setFailed(`Retreiving Scan Status failed for Webhook ${veracodeWebhook}. Reason: ${errorMsg}.`);
+                core.setFailed(`Retreiving Scan Status failed for Webhook ${veracodeWebhook}. Reason: ${JSON.stringify(error)}.`);
                 return
             }
 
@@ -141,16 +150,16 @@ async function run() {
             let method = "GET";
             let url = urlPrefix + "/" + `${veracodeWebhook}/scans/${scanId}/report/junit`;
             let VERACODE_AUTH_HEADER = await generateHeader(url, method);
-
+            console.log(`Calling following url to get scan results: https:// + ${host}${url} with auth header - ${VERACODE_AUTH_HEADER}`);
             const response = await axios.get("https://" + `${host}${url}`, {
                 headers: {'Authorization': VERACODE_AUTH_HEADER},
                 family: 4
             });
+            console.log(`Scan results: ${JSON.stringify(response)}`);
             junitReport = response.data;
         } catch (error) {
             console.log(`HTTTP STATUS = ${error.response.status}`);
-            const errorMsg = error.response ? error.response.data.message : error;
-            core.setFailed(`Downloading Report failed for Webhook ${veracodeWebhook}. Reason: ${errorMsg}.`);
+            core.setFailed(`Downloading Report failed for Webhook ${veracodeWebhook}. Reason: ${error.toString()}.`);
             return
         }
 
