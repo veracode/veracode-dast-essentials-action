@@ -126,12 +126,12 @@ async function run() {
                 const response = await axios.get(callUrl, {
                     headers: {'Authorization': VERACODE_AUTH_HEADER}, family: 4
                 });
-                console.log(`Response Data: ${JSON.stringify(response.data)}`);
+                console.log(`Response Data: ${response.data.toString()}`);
                 console.log(`Scan Status currently is ${response.data.data.status} (101 = Running)`);
                 status = response.data.data.status.status_code;
                 console.log(`Scan Status updated to: ${status}`);
             } catch (error) {
-                console.log(`Response Data: ${JSON.stringify(response.data)}`);
+                console.log(`Response Data: ${response.data.toString()}`);
                 console.log(`Scan Status currently is ${response.data.data.status} (101 = Running)`);
                 status = response.data.data.status.status_code;
                 console.log(`Scan Status updated to: ${status}`);
