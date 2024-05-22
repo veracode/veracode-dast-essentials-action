@@ -86,7 +86,7 @@ async function run() {
             const response = await axios.post(callUrl, "", {
                 headers: {'Authorization': VERACODE_AUTH_HEADER},
             });
-            console.log(`Start scan response: ${JSON.stringify(response)}`);
+            console.log(`Start scan response: ${response.toString()}`);
             scanId = response.data.data.scanId;
         } catch (error) {
             let errorMsg = error.toString()
