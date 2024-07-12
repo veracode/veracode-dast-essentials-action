@@ -22,5 +22,5 @@ inputs:
     required: false
     default: 'false'
 runs:
-  using: 'node20'
+  using: 'node12'
   main: 'index.js'
