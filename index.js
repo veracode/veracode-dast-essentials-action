@@ -77,14 +77,14 @@ async function run() {
         let url = urlPrefix + "/" + veracodeWebhook;
 
         console.log(`Sending Webhook to URL ${host}${url} for ${veracodeWebhook}`);
-
+        let response = null;
         // Start the Security Scan
         try {
-            let method = "POST";
-            let VERACODE_AUTH_HEADER = await generateHeader(url, method);
+            const method = "POST";
+            const VERACODE_AUTH_HEADER = await generateHeader(url, method);
             const callUrl = "https://" + `${host}${url}`
             console.log(`Calling following url: ${callUrl} to start a scan with auth header - ${VERACODE_AUTH_HEADER}`);
-            const response = await axios.post(callUrl, "", {
+            response = await axios.post(callUrl, "", {
                 headers: {'Authorization': VERACODE_AUTH_HEADER},
             });
             console.log(`Start scan response: ${util.inspect(response.data, {depth: null})}`);
@@ -116,7 +116,7 @@ async function run() {
 
             // Only poll every minute
             await wait(pollTimeout);
-
+            let response = null;
             // Refresh status
             try {
                 const method = "GET";
@@ -125,19 +125,17 @@ async function run() {
                 const VERACODE_AUTH_HEADER = await generateHeader(url, method);
 
                 console.log(`Calling following url to get scan status: ${callUrl} with auth header - ${VERACODE_AUTH_HEADER}`);
-                const response = await axios.get(callUrl, {
+                response = await axios.get(callUrl, {
                     headers: {'Authorization': VERACODE_AUTH_HEADER}, family: 4
                 });
                 console.log(`Response Data: ${util.inspect(response.data, {depth: null})}`);
                 console.log(`Scan Status currently is ${response.data.data.status} (101 = Running)`);
-                status = response.data.data.status.status_code;
+                status = response.data.data?.status?.status_code;
                 console.log(`Scan Status updated to: ${status}`);
             } catch (error) {
+                console.log(`ERROR HTTP STATUS = ${error?.response?.status}`);
                 console.log(`Response Data: ${util.inspect(response, {depth: null})}`);
-                console.log(`Scan Status currently is ${response.data.data.status} (101 = Running)`);
-                status = response.data.data.status.status_code;
-                console.log(`Scan Status updated to: ${status}`);
-                console.log(`HTTTP STATUS = ${error.response.status}`);
+                console.log(`Scan Status is: ${status}`);
                 core.setFailed(`Retreiving Scan Status failed for Webhook ${veracodeWebhook}. Reason: ${JSON.stringify(error)}.`);
                 return
             }
