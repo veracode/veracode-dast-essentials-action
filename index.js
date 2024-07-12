@@ -42,7 +42,7 @@ let generateHeader = async (url, method) => {
 
     let data = `id=${id}&host=${host}&url=${url}&method=${method}`;
     let timestamp = (new Date().getTime()).toString();
-    let nonce = crypto.randomBytes(16).toString('hex');
+    let nonce = require('crypto').randomBytes(16).toString('hex');
 
     // calculate signature
     let hashedNonce = await hmac256(getByteArray(nonce), getByteArray(key));
