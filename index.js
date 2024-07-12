@@ -22,7 +22,7 @@ if(region === "eu") {
 }
 
 let hmac256 = async (data, key) => {
-    let hash = crypto.createHmac('sha256', key).update(data);
+    let hash = require('crypto').createHmac('sha256', key).update(data);
     // no format = Buffer / byte array
     return hash.digest();
 }
