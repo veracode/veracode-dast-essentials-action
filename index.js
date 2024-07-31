@@ -3,6 +3,7 @@ const core = require('@actions/core');
 const fs = require('fs');
 crypto = require("crypto");
 const {HttpsProxyAgent} = require('https-proxy-agent');
+const util = require("util");
 
 // Load Configuration
 const veracodeWebhook = core.getInput('VERACODE_WEBHOOK');
@@ -124,8 +125,10 @@ async function run() {
                 const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}, httpsAgent: proxy});
                 status = response.data.data.status.status_code;
             } catch(error) {
-                errorMsg = error.response.data.message
-                core.setFailed(`Retreiving Scan Status failed for Webhook ${veracodeWebhook}. Reason: ${errorMsg}.`);
+                console.log(`ERROR HTTP STATUS = ${error?.response?.status}`);
+                console.log(`Response Data: ${util.inspect(response, {depth: null})}`);
+                console.log(`Scan Status is: ${status}`);
+                core.setFailed(`Retreiving Scan Status failed for Webhook ${veracodeWebhook}. Reason: ${JSON.stringify(error)}.`);
                 return
             }
 
