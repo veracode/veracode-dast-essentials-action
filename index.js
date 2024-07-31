@@ -10,7 +10,7 @@ const id = core.getInput('VERACODE_SECRET_ID');
 const key = core.getInput('VERACODE_SECRET_ID_KEY');
 const region = core.getInput('REGION');
 const pullReport = core.getInput('pull-report');
-const proxy = null;
+let proxy = null;
 if(core.getInput('PROXY_URL') != '') {
     proxy = new HttpsProxyAgent(core.getInput('PROXY_URL'))
 }
