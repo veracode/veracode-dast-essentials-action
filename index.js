@@ -121,7 +121,7 @@ async function run() {
                 let url = urlPrefix+"/"+`${veracodeWebhook}/scans/${scanId}/status`;
 
                 let VERACODE_AUTH_HEADER = await generateHeader(url, method);
-                const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}, httpsAgent: proxy}});
+                const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}, httpsAgent: proxy});
                 status = response.data.data.status.status_code;
             } catch(error) {
                 errorMsg = error.response.data.message
@@ -140,7 +140,7 @@ async function run() {
             let url = urlPrefix+"/"+`${veracodeWebhook}/scans/${scanId}/report/junit`;
             let VERACODE_AUTH_HEADER = await generateHeader(url, method);
 
-            const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}, httpsAgent: proxy}})
+            const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}, httpsAgent: proxy})
             junitReport = response.data;
         } catch(error) {
             errorMsg = error.response.data.message
