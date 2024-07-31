@@ -10,7 +10,10 @@ const id = core.getInput('VERACODE_SECRET_ID');
 const key = core.getInput('VERACODE_SECRET_ID_KEY');
 const region = core.getInput('REGION');
 const pullReport = core.getInput('pull-report');
-const proxy = new HttpsProxyAgent(core.getInput('PROXY_URL'))
+const proxy = null;
+if(core.getInput('PROXY_URL') != '') {
+    proxy = new HttpsProxyAgent(core.getInput('PROXY_URL'))
+}
 
 const preFix = "VERACODE-HMAC-SHA-256";
 const verStr = "vcode_request_version_1";
