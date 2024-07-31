@@ -21,7 +21,7 @@ if(region === "eu") {
 }
 
 let hmac256 = async (data, key) => {
-    let hash = crypto.createHmac('sha256', key).update(data);
+    let hash = require('crypto').createHmac('sha256', key).update(data);
     // no format = Buffer / byte array
     return hash.digest();
 }
@@ -41,7 +41,7 @@ let generateHeader = async (url, method) => {
 
     let data = `id=${id}&host=${host}&url=${url}&method=${method}`;
     let timestamp = (new Date().getTime()).toString();
-    let nonce = crypto.randomBytes(16).toString('hex');
+    let nonce = require('crypto').randomBytes(16).toString('hex');
 
     // calculate signature
     let hashedNonce = await hmac256(getByteArray(nonce), getByteArray(key));
