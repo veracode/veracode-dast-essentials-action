@@ -90,6 +90,7 @@ async function run() {
             const response = await axios.post("https://"+`${host}${url}`, "", {headers: {'Authorization': VERACODE_AUTH_HEADER}, httpsAgent: proxy});
             scanId = response.data.data.scanId;
         } catch(error) {
+            console.log(`ERROR HTTP STATUS = ${error?.response?.status}`);
             errorMsg = error.toString()
             core.setFailed(`Could not start Scan for Webhook ${veracodeWebhook}. Reason: ${errorMsg}.`);
             return
@@ -126,8 +127,6 @@ async function run() {
                 status = response.data.data.status.status_code;
             } catch(error) {
                 console.log(`ERROR HTTP STATUS = ${error?.response?.status}`);
-                console.log(`Response Data: ${util.inspect(response, {depth: null})}`);
-                console.log(`Scan Status is: ${status}`);
                 core.setFailed(`Retreiving Scan Status failed for Webhook ${veracodeWebhook}. Reason: ${JSON.stringify(error)}.`);
                 return
             }
@@ -147,8 +146,6 @@ async function run() {
             junitReport = response.data;
         } catch(error) {
             console.log(`ERROR HTTP STATUS = ${error?.response?.status}`);
-            console.log(`Response Data: ${util.inspect(response, {depth: null})}`);
-            console.log(`Scan Status is: ${status}`);
             core.setFailed(`Downloading Report failed for Webhook ${veracodeWebhook}. Reason: ${JSON.stringify(error)}.`);
             return
         }
