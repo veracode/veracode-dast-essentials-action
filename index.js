@@ -2,6 +2,7 @@ const axios = require('axios')
 const core = require('@actions/core');
 const fs = require('fs');
 crypto = require("crypto");
+const {HttpsProxyAgent} = require('https-proxy-agent');
 
 // Load Configuration
 const veracodeWebhook = core.getInput('VERACODE_WEBHOOK');
@@ -9,6 +10,7 @@ const id = core.getInput('VERACODE_SECRET_ID');
 const key = core.getInput('VERACODE_SECRET_ID_KEY');
 const region = core.getInput('REGION');
 const pullReport = core.getInput('pull-report');
+const proxy = new HttpsProxyAgent(core.getInput('PROXY_URL'))
 
 const preFix = "VERACODE-HMAC-SHA-256";
 const verStr = "vcode_request_version_1";
@@ -81,7 +83,7 @@ async function run() {
         try {
             let method = "POST";
             let VERACODE_AUTH_HEADER = await generateHeader(url, method);
-            const response = await axios.post("https://"+`${host}${url}`, "", {headers: {'Authorization': VERACODE_AUTH_HEADER}});
+            const response = await axios.post("https://"+`${host}${url}`, "", {headers: {'Authorization': VERACODE_AUTH_HEADER}, httpsAgent: proxy});
             scanId = response.data.data.scanId;
         } catch(error) {
             errorMsg = error.toString()
@@ -116,7 +118,7 @@ async function run() {
                 let url = urlPrefix+"/"+`${veracodeWebhook}/scans/${scanId}/status`;
 
                 let VERACODE_AUTH_HEADER = await generateHeader(url, method);
-                const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}});
+                const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}, httpsAgent: proxy}});
                 status = response.data.data.status.status_code;
             } catch(error) {
                 errorMsg = error.response.data.message
@@ -135,7 +137,7 @@ async function run() {
             let url = urlPrefix+"/"+`${veracodeWebhook}/scans/${scanId}/report/junit`;
             let VERACODE_AUTH_HEADER = await generateHeader(url, method);
 
-            const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}})
+            const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}, httpsAgent: proxy}})
             junitReport = response.data;
         } catch(error) {
             errorMsg = error.response.data.message
