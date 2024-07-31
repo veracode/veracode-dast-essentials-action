@@ -146,8 +146,10 @@ async function run() {
             const response = await axios.get("https://"+`${host}${url}`, {headers: {'Authorization': VERACODE_AUTH_HEADER}, httpsAgent: proxy})
             junitReport = response.data;
         } catch(error) {
-            errorMsg = error.response.data.message
-            core.setFailed(`Downloading Report failed for Webhook ${veracodeWebhook}. Reason: ${errorMsg}.`);
+            console.log(`ERROR HTTP STATUS = ${error?.response?.status}`);
+            console.log(`Response Data: ${util.inspect(response, {depth: null})}`);
+            console.log(`Scan Status is: ${status}`);
+            core.setFailed(`Downloading Report failed for Webhook ${veracodeWebhook}. Reason: ${JSON.stringify(error)}.`);
             return
         }
 
