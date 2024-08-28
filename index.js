@@ -13,6 +13,7 @@ const pullReport = core.getInput('pull-report');
 let proxy = null;
 if(core.getInput('PROXY_URL') != '') {
     proxy = core.getInput('PROXY_URL');
+    console.log(`Setup proxy with URL ${proxy}`)
 }
 var req = request.defaults({'proxy': proxy})
 
@@ -82,7 +83,7 @@ async function HttpRequest(method, url, authHeader) {
                 console.log(`ERROR HTTP STATUS = ${response?.statusCode}`);
                 console.log(`Response ${util.inspect(response, {depth: null})}`);
                 console.log(`Response Headers ${util.inspect(response?.headers, {depth: null})}`);
-                reject(`Request failed with error ${body} and status code ${response?.statusCode} Error: ${error}`)
+                reject(`Request failed with ${body} and status code ${response?.statusCode} Error: ${error}`)
                 return
             }
         });
