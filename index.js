@@ -75,7 +75,7 @@ let buffer = (string) => new TextEncoder("utf-8").encode(string);
 
 async function HttpRequest(method, url, authHeader) {
     return new Promise((resolve, reject) => {
-        req({url: url, method: method, headers: {'Authorization': authHeader}, timeout: 60000}, function (error, response, body) {
+        req({url: url, method: method, headers: {'Authorization': authHeader}, timeout: 120000}, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log(body);
                 resolve(body)
