@@ -82,7 +82,7 @@ async function HttpRequest(method, url, authHeader) {
                 console.log(`ERROR HTTP STATUS = ${response?.statusCode}`);
                 console.log(`Response ${util.inspect(response, {depth: null})}`);
                 console.log(`Response Headers ${util.inspect(response?.headers, {depth: null})}`);
-                reject(`Request failed with error ${body} and status code ${response?.statusCode}`)
+                reject(`Request failed with error ${body} and status code ${response?.statusCode} Error: ${error}`)
                 return
             }
         });
