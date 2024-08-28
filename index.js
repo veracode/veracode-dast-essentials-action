@@ -15,6 +15,7 @@ if(core.getInput('PROXY_URL') != '') {
     proxy = core.getInput('PROXY_URL');
 }
 var req = request.defaults({'proxy': proxy})
+req.setTimeout(60000)
 
 const preFix = "VERACODE-HMAC-SHA-256";
 const verStr = "vcode_request_version_1";
