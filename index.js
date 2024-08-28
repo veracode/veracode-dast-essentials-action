@@ -10,11 +10,12 @@ const id = core.getInput('VERACODE_SECRET_ID');
 const key = core.getInput('VERACODE_SECRET_ID_KEY');
 const region = core.getInput('REGION');
 const pullReport = core.getInput('pull-report');
-let proxy_url = null;
+let proxy = null;
 if(core.getInput('PROXY_URL') != '') {
-    proxy_url = core.getInput('PROXY_URL');
-    console.log(`Setup proxy with URL ${proxy_url}`)
+    proxy = core.getInput('PROXY_URL');
+    console.log(`Setup proxy with URL ${proxy}`)
 }
+var req = request.defaults({'proxy': proxy})
 
 const preFix = "VERACODE-HMAC-SHA-256";
 const verStr = "vcode_request_version_1";
@@ -74,7 +75,7 @@ let buffer = (string) => new TextEncoder("utf-8").encode(string);
 
 async function HttpRequest(method, url, authHeader) {
     return new Promise((resolve, reject) => {
-        req({url: url, method: method, headers: {'Authorization': authHeader}, timeout: 120000, proxy: proxy_url}, function (error, response, body) {
+        req({url: url, method: method, headers: {'Authorization': authHeader}, timeout: 120000}, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log(body);
                 resolve(body)
