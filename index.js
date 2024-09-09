@@ -146,7 +146,7 @@ async function run() {
                 status = data.data.status.status_code;
             } catch (error) {
                 retries++;
-                if retries < maxRetries {
+                if(retries < maxRetries) {
                     console.log("Could not get the current status. Retrying...")
                     continue
                 }
