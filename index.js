@@ -92,12 +92,13 @@ async function HttpRequest(method, url, authHeader) {
 
 async function run() {
     try {
-
         // Setup general variables
         const pollTimeout = 60000; // Polling the scan status every 60 seconds
         let status = 100; // 100 = Queued
         global.scanId = undefined;
         let url = urlPrefix+"/"+veracodeWebhook;
+        const maxRetries = 3;
+        let retries = 0;
 
         console.log(`Sending Webhook to URL ${host}${url} for ${veracodeWebhook}`);
 
@@ -144,6 +145,11 @@ async function run() {
                 data = JSON.parse(resp);
                 status = data.data.status.status_code;
             } catch (error) {
+                retries++;
+                if retries < maxRetries {
+                    console.log("Could not get the current status. Retrying...")
+                    continue
+                }
                 console.log(`Could not get the current status. Reason: ${JSON.stringify(error)}`);
                 return
             }
