@@ -153,7 +153,7 @@ async function run() {
                 console.log(`Could not get the current status. Reason: ${JSON.stringify(error)}`);
                 return
             }
-
+            retries = 0;
         }
 
         console.log(`Scan finished with status ${status}.`)
