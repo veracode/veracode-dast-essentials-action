@@ -17,6 +17,9 @@ inputs:
     description: 'Region of the DAST Essentials'
     required: false
     default: 'us'
+  PROXY_URL:
+    description: 'A URL of a http proxy'
+    required: false
   pull-report:
     description: 'Flag whether the report should be downloaded as JUnit XML file'
     required: false
